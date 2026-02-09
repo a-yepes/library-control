@@ -2,7 +2,8 @@ package pio.daw;
 
 import java.util.List;
 
-public interface Controlable {
+public interface Controlable { // NO tiene logica, va en cada clase que la implemente
+//controla: usuarios, entradas y salidas, quien esta dentro,cuantas veces ha entrado, resumen
 
 
     /**
@@ -10,7 +11,7 @@ public interface Controlable {
      * @param id ID of the user to update.
      * @param s event type detected.
      */
-    public void registerChange(String id, EventType e);
+    public void registerChange(String id, EventType e); //localizar al usuario,actualizar su estado, contar entradas
 
     /**
      * Return the list of all of the current Users
@@ -22,14 +23,14 @@ public interface Controlable {
      * Get the user with the biggest amount of entries.
      * @return user that enters more tiemes.
      */
-    public  List<User> getMaxEntryUsers();
+    public  List<User> getMaxEntryUsers();// devuelve una lista porque puede haber mas de uno
 
 
     /**
      * Get the list with all the users that has enter the place ordered by User ID.
      * @return
      */
-    public List<User> getUserList();
+    public List<User> getUserList();// devuelve todos los usuarios ordenados por ID sin duplicados
 
     /**
      * Print a resume of the current status:

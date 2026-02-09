@@ -1,6 +1,9 @@
 package pio.daw;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
+
+
 
 public class App {
     /**
@@ -11,13 +14,22 @@ public class App {
      * @return Path to file if exists.
      */
     public static Path getPathFromArgs(String[] args){
-        //TODO
-        return null;
-    }
+        Path path = Path.of(args[0]); // pasa el csv a un objeto Path
+
+        //compruebo que el archivo existe y es un .csv
+        if (!Files.exists(path) || !path.toString().endsWith(".csv")) {
+            System.err.println("El archivo no existe o no es .csv");
+            System.exit(1);
+        }
+
+    return path; //devuelve la ruta si el archivo existe 
+}
+}
 
     public static void main(String[] args) {
         Path p = getPathFromArgs(args);
         Controlable controler = Library.fromFile(p);
         controler.printResume();
     }
-}
+
+

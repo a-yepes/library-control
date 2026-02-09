@@ -1,6 +1,6 @@
 package pio.daw;
 
-public class User implements Localizable {
+public class User implements Localizable { // guarda las entradas y el estado
     private String id;
     private EventType lasEvent = null;
     private Boolean inside = false;
@@ -13,5 +13,9 @@ public class User implements Localizable {
         return this.id;
     }
 
-    //TODO
+    //IMPLEMENTO LOCALIZABLE
+     public Boolean isInside(){
+        return null;//completar
+     }
+
 }
