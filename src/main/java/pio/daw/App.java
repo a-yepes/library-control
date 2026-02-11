@@ -24,12 +24,13 @@ public class App {
 
     return path; //devuelve la ruta si el archivo existe 
 }
-}
+
 
     public static void main(String[] args) {
         Path p = getPathFromArgs(args);
         Controlable controler = Library.fromFile(p);
         controler.printResume();
     }
+}
 
 

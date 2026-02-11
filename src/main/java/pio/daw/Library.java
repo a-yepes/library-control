@@ -3,11 +3,10 @@ package pio.daw;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 
 public class Library implements Controlable {// guarda usuarios, procesa e/s y usa controlable
 
@@ -25,14 +24,22 @@ public class Library implements Controlable {// guarda usuarios, procesa e/s y u
         Library library = new Library();
         
         try {
-        List<String> lines = Files.readAllLines(path); //pide un try catch porque devuelve un exception
+        List<String> lines = Files.readAllLines(path); //lines va a ser una lista con todos los datos del documento. Pide un try catch porque devuelve un exception
 
         for (String line : lines) {
-            String[] parts = line.split(" ");
+            String[] parts = line.split(";");// separo el archivo en id y event (entrada/salida)
             String id = parts[0];
-            EventType event = EventType.valueOf(parts[1]);
+            EventType event;
 
-            library.registerChange(id, event);
+            if(parts[1].equals ("ENTRADA")){ //si en el archivo pone entrada o salida, que coincida con el entry o exit de la clase EventType
+                event= EventType.ENTRY;
+            }
+            else{
+                event=EventType.EXIT;
+            }
+            
+
+            library.registerChange(id, event); //guardo datos
         }
 
         } catch (IOException e) {
@@ -50,7 +57,7 @@ public class Library implements Controlable {// guarda usuarios, procesa e/s y u
 
     //IMPLEMENTAR CONTROLABLE
 
-    public void registerChange(String id, EventType e){ //buscar user por ID, si no existe lo creo, uso eventype para poner las e/s
+    public void registerChange(String id, EventType e){ //busca user por ID, si no existe lo creo, uso eventype para poner las e/s
 
         User u = users.get(id); //users es el mapa creado arriba
 
@@ -58,17 +65,17 @@ public class Library implements Controlable {// guarda usuarios, procesa e/s y u
             u = new User(id);
             users.put(id,u);
         }
-        u.processEvent(e);
+        u.processEvent(e);//metodo creado en clase User
         
     }
     
 
 
-    public List<User> getCurrentInside(){//recorrer todos los usuarios y coger solo los que esten dentro 
+    public List<User> getCurrentInside(){//recorre todos los usuarios y coge solo los que esten dentro 
 
         List<User> inside = new java.util.ArrayList<>();
 
-        for (User u : users.values()) {
+        for (User u : users.values()) { //uso values porque users es un map 
             if (u.isInside()) {
             inside.add(u);
             }
@@ -80,11 +87,12 @@ public class Library implements Controlable {// guarda usuarios, procesa e/s y u
     
     
 
-    public  List<User> getMaxEntryUsers(){//recorrer todos los usuarios, calcular el maximo y devolver el usuario o usuarios con mas entradas (lista)
+    public  List<User> getMaxEntryUsers(){//recorre todos los usuarios, calcula el maximo y devuelve el usuario o usuarios con mas entradas (lista)
         int max=0;
-        for( int i; i<users.size(); i++){
+
+        for( User u : users.values()){ 
             if (u.getEntries() > max){
-                max= u.getEntries;
+                max= u.getEntries();
             }
         }
         List<User> result = new ArrayList<>(); 
@@ -94,13 +102,37 @@ public class Library implements Controlable {// guarda usuarios, procesa e/s y u
                 result.add(u); 
             }
         }
+        return result;
 
     }
     
 
-    public List<User> getUserList(){ // devuelve todos los usuarios ordenados por ID sin duplicados COMPLETAR
-        return null;
-    }
+    public List<User> getUserList(){ // devuelve todos los usuarios ordenados por ID sin duplicados 
+        List<User> list = new ArrayList<>();
+
+        for( User u : users.values()){ //para poner users desordenados en list ordenados
+            list.add(u);
+        }
+
+        for (int i = 0; i < list.size(); i++) { //con el primer usuario, lo comparo con los demas y los voy ordenando por id
+            for (int j = i + 1; j < list.size(); j++) {
+
+                if (list.get(i).getId().compareTo(list.get(j).getId()) > 0) {
+
+                // Intercambiar posiciones
+                User temp = list.get(i);
+                list.set(i, list.get(j));
+                list.set(j, temp);
+                }
+            }
+        }
+
+    return list;
+}
+     
+
+        
+    
 
    
    
