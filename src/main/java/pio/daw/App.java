@@ -14,10 +14,10 @@ public class App {
      * @return Path to file if exists.
      */
     public static Path getPathFromArgs(String[] args){
-        Path path = Path.of(args[0]); // pasa el csv a un objeto Path
+        Path path = Path.of(args[0]); // pasa el txt a un objeto Path
 
-        //compruebo que el archivo existe y es un .csv
-        if (!Files.exists(path) || !path.toString().endsWith(".csv")) {
+        //compruebo que el archivo existe y es un .txt
+        if (!Files.exists(path) || !path.toString().endsWith(".txt")) {
             System.err.println("El archivo no existe o no es .csv");
             System.exit(1);
         }
