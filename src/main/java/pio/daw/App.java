@@ -18,7 +18,7 @@ public class App {
 
         //compruebo que el archivo existe y es un .txt
         if (!Files.exists(path) || !path.toString().endsWith(".txt")) {
-            System.err.println("El archivo no existe o no es .csv");
+            System.err.println("El archivo no existe o no es .txt");
             System.exit(1);
         }
 
