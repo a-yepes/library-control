@@ -26,8 +26,8 @@ public class Library implements Controlable {// guarda usuarios, procesa e/s y u
         try {
         List<String> lines = Files.readAllLines(path); //lines va a ser una lista con todos los datos del documento. Pide un try catch porque devuelve un exception
 
-        for (String line : lines) {
-            String[] parts = line.split(";");// separo el archivo en id y event (entrada/salida)
+        for (String line : lines) {// separo el archivo en id y event (entrada/salida) y guardo cada parte por separado
+            String[] parts = line.split(";");
             String id = parts[0];
             EventType event;
 
@@ -39,7 +39,7 @@ public class Library implements Controlable {// guarda usuarios, procesa e/s y u
             }
             
 
-            library.registerChange(id, event); //guardo datos
+            library.registerChange(id, event); //guardo registros
         }
 
         } catch (IOException e) {
@@ -50,22 +50,24 @@ public class Library implements Controlable {// guarda usuarios, procesa e/s y u
         return library;
     }
 
-    private Library(){
+   
+    private Library(){  //constructor
         this.users = new HashMap<>();
     }
 
 
-    //IMPLEMENTAR CONTROLABLE
+    //IMPLEMENTO CONTROLABLE
 
     public void registerChange(String id, EventType e){ //busca user por ID, si no existe lo creo, uso eventype para poner las e/s
 
-        User u = users.get(id); //users es el mapa creado arriba
+        User u = this.users.get(id); //users es el mapa creado arriba
 
         if( u == null){
             u = new User(id);
-            users.put(id,u);
+            
         }
         u.processEvent(e);//metodo creado en clase User
+        this.users.put(id,u);//se pone aqui abajo para asegurarnos de que se registra bien
         
     }
     
@@ -120,9 +122,9 @@ public class Library implements Controlable {// guarda usuarios, procesa e/s y u
                 if (list.get(i).getId().compareTo(list.get(j).getId()) > 0) {
 
                 // Intercambiar posiciones
-                User temp = list.get(i);
+                User a = list.get(i);
                 list.set(i, list.get(j));
-                list.set(j, temp);
+                list.set(j, a);
                 }
             }
         }
@@ -131,10 +133,6 @@ public class Library implements Controlable {// guarda usuarios, procesa e/s y u
 }
      
 
-        
-    
-
-   
    
     public void printResume() {
     System.out.println("Usuarios actualmente dentro de la biblioteca: ");
@@ -144,7 +142,7 @@ public class Library implements Controlable {// guarda usuarios, procesa e/s y u
 
     System.out.println("Número de entradas por usuario:");
     for (User u : getUserList()) {
-        System.out.println(u.getId() + " -> " + u.getEntries()); //hacer metodo getEntries
+        System.out.println(u.getId() + " -> " + u.getEntries()); //metodo hecho en user
     }
 
     System.out.println("Usuario(s) con más entradas:");
