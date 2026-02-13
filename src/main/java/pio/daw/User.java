@@ -46,8 +46,3 @@ public class User implements Localizable { // guarda las entradas y el estado
     
 
 }
-/*1. mirar que el txt existe (en library)
-2. leer el txt y pasarlo a list<string> (en library)
-3.lee linea a linea y crear map users: si no existe lo crea nuevo y si no coge el existente; llama a register event (en library)
-4.crear library a partir de list<user> (en library)
-*/
