@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -110,27 +111,12 @@ public class Library implements Controlable {// guarda usuarios, procesa e/s y u
     
 
     public List<User> getUserList(){ // devuelve todos los usuarios ordenados por ID sin duplicados 
-        List<User> list = new ArrayList<>();
+        List<User> list = new ArrayList<>(this.users.values()); //coge solo los valores del mapa
+        Collections.sort(list, User::compare); //ordenamos con la funcion creada en user para comparar usuarios
 
-        for( User u : users.values()){ //para poner users desordenados en list ordenados
-            list.add(u);
-        }
-
-        for (int i = 0; i < list.size(); i++) { //con el primer usuario, lo comparo con los demas y los voy ordenando por id
-            for (int j = i + 1; j < list.size(); j++) {
-
-                if (list.get(i).getId().compareTo(list.get(j).getId()) > 0) {
-
-                // Intercambiar posiciones
-                User a = list.get(i);
-                list.set(i, list.get(j));
-                list.set(j, a);
-                }
-            }
-        }
 
     return list;
-}
+    }
      
 
    
