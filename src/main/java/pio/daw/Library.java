@@ -111,7 +111,9 @@ public class Library implements Controlable {// guarda usuarios, procesa e/s y u
     
 
     public List<User> getUserList(){ // devuelve todos los usuarios ordenados por ID sin duplicados 
+
         List<User> list = new ArrayList<>(this.users.values()); //coge solo los valores del mapa
+        
         Collections.sort(list, User::compare); //ordenamos con la funcion creada en user para comparar usuarios
 
 
