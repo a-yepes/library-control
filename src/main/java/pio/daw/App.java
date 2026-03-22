@@ -1,5 +1,6 @@
 package pio.daw;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class App {
@@ -11,13 +12,26 @@ public class App {
      * @return Path to file if exists.
      */
     public static Path getPathFromArgs(String[] args){
-        //TODO
-        return null;
+        //compruebo que hay 1 argumento solo
+        if (args.length != 1) {
+            throw new RuntimeException("Solo debes pasar un argumento");
+        }
+
+        Path path = Path.of(args[0]); // pasa el txt a un objeto Path
+
+        //compruebo que el archivo existe
+        if (!Files.exists(path)) {
+            throw new RuntimeException("El archivo no existe o no es .txt");
+        }
+
+        return path; //devuelve la ruta si el archivo existe
     }
 
+    //MAIN
     public static void main(String[] args) {
         Path p = getPathFromArgs(args);
-        Controlable controler = Library.fromFile(p);
+        Library controler = Library.fromFile(p);
         controler.printResume();
     }
 }
+
