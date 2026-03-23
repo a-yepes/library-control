@@ -21,10 +21,6 @@ public class User implements Localizable { // guarda las entradas y el estado
         return nEntries;
     }
 
-    public static Integer compare(User u1, User u2){ //para comparar usuarios en getUsersList
-        return u1.getId().compareTo(u2.getId());
-    }
-
     //IMPLEMENTO LOCALIZABLE
     public Boolean isInside(){
         return inside;
